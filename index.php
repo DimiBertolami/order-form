@@ -54,37 +54,49 @@ function handleForm(): void
 {
     // TODO: form related tasks (step 1)
     function_alert('starting form validation');
-
+    if(!isset($stack)){
+        $stack= [];
+    }
 
     if (isset($_POST['submit'])){
         echo "formSubmitted will be set to TRUE if the form has been submitted";
         $formSubmitted = true;
-        whatIsHappening();
 
         $email = $_POST["email"];
-        whatIsHappening();
+//        whatIsHappening();
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $emailErr = "Invalid email format";
-            function_alert($emailErr);
             $stack = array($emailErr);
-            whatIsHappening();
+        } else {
+            echo '<div class="alert alert-success" role="alert">';
+            echo 'You managed to enter a valid email adress! good for you!';
+            echo '</div>';
         }
-//    $street = test_input($_POST["street"]);
         $street = $_POST["street"];
-        whatIsHappening();
         // check if name only contains letters and whitespace
         if (!preg_match("/^[a-zA-Z-' ]*$/",$street)) {
-            whatIsHappening();
             $nameErr = "Only letters and white space allowed";
-            function_alert($nameErr);
+            echo '<div class="alert alert-danger" role="alert">';
+            echo $nameErr;
+            echo '</div>';
             $stack = array($nameErr);
+        } else {
+            echo '<div class="alert alert-success" role="alert">';
+            echo 'it appears you also entered a valid street name!';
+            echo '</div>';
         }
-        whatIsHappening();
+
         $streetnumber = $_POST["streetnumber"];
         if (!preg_match("/^[\d']*$/",$streetnumber)) {
             $nameErr = "Only numbers allowed";
-            function_alert($nameErr);
+            echo '<div class="alert alert-danger" role="alert">';
+            echo $nameErr;
+            echo '</div>';
             $stack = array($nameErr);
+        } else {
+            echo '<div class="alert alert-success" role="alert">';
+            echo 'house number is valid!';
+            echo '</div>';
         }
     }
 
