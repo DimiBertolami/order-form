@@ -28,6 +28,8 @@ $products = [
     ['name' => 'defNotGonnaMakeIt', 'price' => 3.5]
 ];
         print_r($products);
+//        echo $products;
+
 $formSubmitted = false;
 $totalValue = 0;
 
@@ -46,7 +48,7 @@ function validate($stack)
         $stack= [];
     }
     if (isset($_POST['submit'])){
-        echo "formSubmitted will be set to TRUE if the form has been submitted";
+//        echo "formSubmitted will be set to TRUE if the form has been submitted";
 //    function_alert('starting form validation');
         $formSubmitted = true;
 
@@ -90,6 +92,33 @@ function validate($stack)
             echo '</div>';
         }
     }
+    $city = $_POST["city"];
+    // check if name only contains letters and whitespace
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$city)) {
+        $nameErr = "Only letters and white space allowed for city";
+        echo "<script>document.getElementById('street').setAttribute('class', 'disabled');</script>";
+        echo '<div class="alert alert-danger" role="alert">';
+        echo $nameErr;
+        echo '</div>';
+        $stack = array($nameErr);
+    } else {
+        echo '<div class="alert alert-success" role="alert">';
+        echo 'it appears you also entered a valid city name!';
+        echo '</div>';
+    }
+    $zipcode = $_POST["zipcode"];
+    if (!preg_match("/^[\d']*$/",$zipcode)) {
+        $nameErr = "Only numbers allowed for zipcode field";
+        echo "<script>document.getElementById('streetnumber').setAttribute('class', 'disabled');</script>";
+        echo '<div class="alert alert-danger" role="alert">';
+        echo $nameErr;
+        echo '</div>';
+        $stack = array($nameErr);
+    } else {
+        echo '<div class="alert alert-success" role="alert">';
+        echo 'zipcode number is valid!';
+        echo '</div>';
+    }
 
     return $stack;
 }
@@ -110,14 +139,27 @@ function handleForm(): void
     if (!empty($invalidFields)) {
         // TODO: handle errors
         function_alert('TODO: handle errors');
-        whatIsHappening();
+//        whatIsHappening();
         print_r($invalidFields);
     } else {
         // TODO: handle successful submission
         function_alert('form submitted successfully');
 
+        if (isset($_POST['$products[0][0]'])) {
+            echo $_POST['$products[0][0]']; // Displays value of checked checkbox.
+            echo $_POST['$products[0][1]']; // Displays value of checked checkbox.
+        }
+        if (isset($_POST['$products[1][0]'])) {
+            echo $_POST['$products[1][0]']; // Displays value of checked checkbox.
+            echo $_POST['$products[1][1]']; // Displays value of checked checkbox.
+        }
+        if (isset($_POST['$products[2][0]'])) {
+            echo $_POST['$products[2][0]']; // Displays value of checked checkbox.
+            echo $_POST['$products[2][1]']; // Displays value of checked checkbox.
+        }
+
         $formSubmitted = false;
-        whatIsHappening();
+
     }
 }
 
