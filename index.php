@@ -27,6 +27,7 @@ $products = [
     ['name' => 'imNotGonnaMakeIt', 'price' => 3],
     ['name' => 'defNotGonnaMakeIt', 'price' => 3.5]
 ];
+        print_r($products);
 $formSubmitted = false;
 $totalValue = 0;
 
@@ -41,25 +42,12 @@ function validate($stack)
         city	    Required.   not blank
         zipcode     required.   must be numbers only
 */
-
-    return $stack;
-}
-function function_alert($message): void
-{
-
-    // Display the alert box
-    echo "<script>alert('$message');</script>";
-}
-function handleForm(): void
-{
-    // TODO: form related tasks (step 1)
-    function_alert('starting form validation');
     if(!isset($stack)){
         $stack= [];
     }
-
     if (isset($_POST['submit'])){
         echo "formSubmitted will be set to TRUE if the form has been submitted";
+//    function_alert('starting form validation');
         $formSubmitted = true;
 
         $email = $_POST["email"];
@@ -67,6 +55,7 @@ function handleForm(): void
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $emailErr = "Invalid email format";
             $stack = array($emailErr);
+            echo "<script>document.getElementById('email').setAttribute('class', 'disabled');</script>";
         } else {
             echo '<div class="alert alert-success" role="alert">';
             echo 'You managed to enter a valid email adress! good for you!';
@@ -75,7 +64,8 @@ function handleForm(): void
         $street = $_POST["street"];
         // check if name only contains letters and whitespace
         if (!preg_match("/^[a-zA-Z-' ]*$/",$street)) {
-            $nameErr = "Only letters and white space allowed";
+            $nameErr = "Only letters and white space allowed for streetname";
+            echo "<script>document.getElementById('street').setAttribute('class', 'disabled');</script>";
             echo '<div class="alert alert-danger" role="alert">';
             echo $nameErr;
             echo '</div>';
@@ -88,7 +78,8 @@ function handleForm(): void
 
         $streetnumber = $_POST["streetnumber"];
         if (!preg_match("/^[\d']*$/",$streetnumber)) {
-            $nameErr = "Only numbers allowed";
+            $nameErr = "Only numbers allowed for houseNUMBER field";
+            echo "<script>document.getElementById('streetnumber').setAttribute('class', 'disabled');</script>";
             echo '<div class="alert alert-danger" role="alert">';
             echo $nameErr;
             echo '</div>';
@@ -100,15 +91,33 @@ function handleForm(): void
         }
     }
 
+    return $stack;
+}
+function function_alert($message): void
+{
 
+    // Display the alert box
+    echo "<script>alert('$message');</script>";
+}
+function handleForm(): void
+{
+    // TODO: form related tasks (step 1)
+    if(!isset($stack)){
+        $stack= [];
+    }
     // Validation (step 2)
     $invalidFields = validate($stack);
     if (!empty($invalidFields)) {
         // TODO: handle errors
         function_alert('TODO: handle errors');
+        whatIsHappening();
+        print_r($invalidFields);
     } else {
         // TODO: handle successful submission
         function_alert('form submitted successfully');
+
+        $formSubmitted = false;
+        whatIsHappening();
     }
 }
 
